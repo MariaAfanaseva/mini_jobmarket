@@ -1,4 +1,6 @@
 __pycache__/
 .idea/
+data/
 env/
-jobs_feed.xml
+.env
+.env-postgres
