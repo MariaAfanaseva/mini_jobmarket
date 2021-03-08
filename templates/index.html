@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Mini JobNinja{% endblock %}
+{% block content %}
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root">
+        <div>
+            <input placeholder="Search" type="text" v-model="searchLine">
+            <button type="submit" @click="getData">Search</button>
+        </div>
+        <vacancies v-bind:jobs="jobs"></vacancies>
+    </div>
+{% endblock %}
+{% block script %}
+    <!-- Note: when deploying to production, delete /dist/vue.js». -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script type="module" src="{{ url_for('static', filename='vue_js/index.js') }}"></script>
+{% endblock %}

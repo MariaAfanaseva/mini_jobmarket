@@ -4,7 +4,7 @@ from databases.sql_db import db
 class Vacancy(db.Model):
     __tablename__ = "vacancies"
 
-    id = db.Column(db.String(128), primary_key=True, unique=True)
+    id = db.Column(db.String(128), primary_key=True)
     title = db.Column(db.String(255), nullable=False)
     firm = db.Column(db.String(128), nullable=False)
     description = db.Column(db.Text(), nullable=False)
@@ -30,9 +30,32 @@ class Vacancy(db.Model):
     def __repr__(self):
         return f'{self.title}'
 
+    def dict(self):
+        return {
+            'id': self.id,
+            'title': self.title
+        }
+
     @classmethod
     def find_by_id(cls, vacancy_id):
         return cls.query.filter_by(id=vacancy_id).first()
+
+    @classmethod
+    def _create_conditions(cls, keywords):
+        conditions = []
+        for keyword in keywords:
+            conditions.append(cls.title.ilike(f'%{keyword}%'))
+            conditions.append(cls.description.ilike(f'%{keyword}%'))
+        return conditions
+
+    @classmethod
+    def search_vacancies(cls, page, quantity, keywords):
+        if keywords:
+            conditions = cls._create_conditions(keywords)
+            return cls.query.filter(
+                db.or_(*conditions)
+            ).paginate(page, quantity, False).items
+        return cls.query.paginate(page, quantity, False).items
 
     def save_to_db(self):
         db.session.add(self)

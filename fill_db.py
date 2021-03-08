@@ -66,7 +66,7 @@ class UpdateDb:
 
 
 if __name__ == '__main__':
-    app = create_app("development")
+    app = create_app('development')
     with app.app_context():
         update = UpdateDb(xml_file_path='data/jobs_feed.xml')
         update.recreate_db()

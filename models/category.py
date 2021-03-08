@@ -16,8 +16,8 @@ class Category(db.Model):
     __tablename__ = "categories"
 
     id = db.Column(db.Integer(), primary_key=True)
-    name = db.Column(db.String(80), nullable=False, unique=True)
-    vacancies = db.relationship('Vacancy', secondary=vacancy_categories, lazy='subquery',
+    name = db.Column(db.String(128), nullable=False, unique=True)
+    vacancies = db.relationship('Vacancy', secondary=vacancy_categories, lazy='dynamic',
                                 backref=db.backref('categories', lazy=True))
 
     def __init__(self, name):
