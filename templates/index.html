@@ -1,13 +1,15 @@
 {% extends "base.html" %}
-{% block title %}Mini JobNinja{% endblock %}
+{% block title %}Mini JobNinja - per Link zum neuen Job{% endblock %}
 {% block content %}
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root">
         <div>
             <input placeholder="Search" type="text" v-model="searchLine">
-            <button type="submit" @click="getData">Search</button>
+            <button type="submit" @click="getData(1)">Search</button>
         </div>
         <vacancies v-bind:jobs="jobs"></vacancies>
+        <pages v-bind:total-pages="totalPages" @update="getData($event)"></pages>
+        <message v-bind:is-visible="isVisibleMessage"></message>
     </div>
 {% endblock %}
 {% block script %}
