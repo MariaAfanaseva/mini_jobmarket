@@ -2,7 +2,7 @@ from databases.sql_db import db
 
 vacancy_categories = db.Table('vacancy_categories',
                               db.Column('vacancy_id',
-                                        db.String,
+                                        db.Integer,
                                         db.ForeignKey('vacancies.id'),
                                         primary_key=True),
                               db.Column('category_id',

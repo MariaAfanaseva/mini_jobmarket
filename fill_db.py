@@ -37,7 +37,6 @@ class UpdateDb:
         records = self._parse_xml()
 
         for record in records:
-            vacancy_id = record.getElementsByTagName('id')[0].firstChild.data
             title = record.getElementsByTagName('titel')[0].firstChild.data
             firm = record.getElementsByTagName('firma')[0].firstChild.data
             text = record.getElementsByTagName('volltext')[0].firstChild.data
@@ -50,7 +49,7 @@ class UpdateDb:
 
             day, month, year = from_date.split('-')
             from_date = datetime.date(int(year), int(month), int(day))
-            vacancy = Vacancy(vacancy_id=vacancy_id, title=title, firm=firm, description=text,
+            vacancy = Vacancy(title=title, firm=firm, description=text,
                               workplace_postcode=postcode, workplace=workplace,
                               from_date=from_date, job_link=job_link, job_type=job_type)
             vacancy.save_to_db()

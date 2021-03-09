@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}{{ job.title }}{% endblock %}
+{% block content %}
+    {% autoescape false %}
+        <div>
+            <h1>{{ job.title }}</h1>
+            {{ job.description }}
+        </div>
+    {% endautoescape %}
+    <a href="{{ job.job_link }}">JETZT BEWERBEN</a>
+{% endblock %}

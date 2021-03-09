@@ -4,7 +4,7 @@ from databases.sql_db import db
 class Vacancy(db.Model):
     __tablename__ = "vacancies"
 
-    id = db.Column(db.String(128), primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(255), nullable=False)
     firm = db.Column(db.String(128), nullable=False)
     description = db.Column(db.Text(), nullable=False)
@@ -14,10 +14,9 @@ class Vacancy(db.Model):
     job_link = db.Column(db.String(128))
     job_type = db.Column(db.String(80))
 
-    def __init__(self, vacancy_id, title, firm, description,
+    def __init__(self, title, firm, description,
                  workplace_postcode, workplace,
                  from_date, job_link, job_type):
-        self.id = vacancy_id
         self.title = title
         self.firm = firm
         self.description = description
@@ -54,8 +53,8 @@ class Vacancy(db.Model):
             conditions = cls._create_conditions(keywords)
             return cls.query.filter(
                 db.or_(*conditions)
-            ).paginate(page, quantity, False).items
-        return cls.query.paginate(page, quantity, False).items
+            ).paginate(page, quantity, False)
+        return cls.query.paginate(page=page, per_page=quantity, error_out=False)
 
     def save_to_db(self):
         db.session.add(self)
