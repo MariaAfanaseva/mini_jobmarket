@@ -64,11 +64,13 @@ new Vue({
         this.getData();
     },
 
-    methods: {
-        checkData(data) {
-            this.isVisibleMessage = (data.length === 0);
+    watch: {
+        jobs: function(val) {
+            this.isVisibleMessage = (val.length === 0);
         },
+    },
 
+    methods: {
         scrollToTop() {
             window.scrollTo(0,0);
         },
@@ -83,11 +85,10 @@ new Vue({
             fetch(url)
                 .then(res => res.json())
                 .then(result => {
-                    this.checkData(result.jobs);
                     this.jobs = result.jobs;
-                    this.totalPages = result.totalPages
+                    this.totalPages = result.totalPages;
+                    this.scrollToTop();
                 });
-            this.scrollToTop();
 
         }
     }
