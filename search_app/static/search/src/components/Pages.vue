@@ -1,13 +1,17 @@
 <template>
-    <div class="pages">
-        <div class="page-number" v-for="page in totalPages" :key="page" >
+    <div class="pagination-container">
+        <router-link v-for="page in totalPages"
+                     :key="page"
+                     :to="{ path: '/search-job',
+                            query: { keywords: searchLine, page: page } }"
+                     class="pagination-number">
             <div v-if="page" v-on:click="changePage(page)">
                 {{ page }}
             </div>
             <div v-else>
                 ...
             </div>
-        </div>
+        </router-link>
     </div>
 </template>
 
@@ -17,7 +21,7 @@
       props: {
         totalPages: Array,
         searchLine: String,
-        },
+      },
 
       methods: {
           changePage(page) {
@@ -28,15 +32,46 @@
     }
 </script>
 
-<style scoped>
-
-    .pages {
+<style>
+    .pagination-container {
         display: flex;
         justify-content: center;
+        flex-wrap: wrap;
+        margin: 20px 0;
     }
 
-    .page-number {
+    .pagination-number {
+        color: black;
+        text-decoration: none;
         padding: 8px;
+        width: 35px;
+        text-align: center;
+        border: 1px solid #c2cdd1;
+        border-right: none;
+    }
+
+    .pagination-number:hover {
+        cursor: pointer;
+        background-color: #b9382f;
+        border-color: #b9382f;
+    }
+
+    .router-link-exact-active {
+        cursor: none;
+        background-color: #b9382f;
+        border-color: #b9382f;
+    }
+
+    .pagination-number:last-child {
+        border-right: 1px solid #c2cdd1;
+    }
+
+    @media screen and (max-width: 767px) {
+        .pagination-number {
+            width: 20px;
+            padding: 5px;
+            margin: 10px 0 20px 0;
+        }
     }
 
 </style>

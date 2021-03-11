@@ -1,9 +1,11 @@
 {% extends "base.html" %}
-{% block title %}{{ job.title }}{% endblock %}
+{% block title %}{{ job.title|safe }}{% endblock %}
 {% block content %}
     {% autoescape false %}
         <div>
             <h1>{{ job.title }}</h1>
+            {{ job.from_date }}
+            {{ job.firm }}
             {{ job.description }}
         </div>
     {% endautoescape %}
