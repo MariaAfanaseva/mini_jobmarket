@@ -32,7 +32,9 @@ class Vacancy(db.Model):
     def dict(self):
         return {
             'id': self.id,
-            'title': self.title
+            'title': self.title,
+            'workplace': self.workplace
+
         }
 
     @classmethod
@@ -45,6 +47,7 @@ class Vacancy(db.Model):
         for keyword in keywords:
             conditions.append(cls.title.ilike(f'%{keyword}%'))
             conditions.append(cls.description.ilike(f'%{keyword}%'))
+            conditions.append(cls.firm.ilike(f'%{keyword}%'))
         return conditions
 
     @classmethod
@@ -53,7 +56,7 @@ class Vacancy(db.Model):
             conditions = cls._create_conditions(keywords)
             return cls.query.filter(
                 db.or_(*conditions)
-            ).paginate(page, quantity, False)
+            ).order_by(cls.from_date.desc()).paginate(page, quantity, False)
         return cls.query.paginate(page=page, per_page=quantity, error_out=False)
 
     def save_to_db(self):
