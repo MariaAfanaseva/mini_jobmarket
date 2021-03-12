@@ -1,0 +1,82 @@
+*{
+    font: 300 18px 'Open Sans', sans-serif;
+    color: #636a6f;
+    text-align: justify-all;
+}
+
+body {
+    margin: 0;
+    background-color: rgba(238, 238, 238, 0.38);
+}
+
+.job-home {
+    padding: 5% 15%;
+}
+
+.job-container {
+    display: grid;
+    grid-gap: 20px;
+    background-color: white;
+    padding: 10% 15%;
+    box-shadow: 2px 4px 10px 0 rgba(1, 1, 1, .3);
+}
+
+.job-title-container {
+    border-bottom: 2px #96a2b2 solid;
+}
+
+.job-title {
+    font-size: 26px;
+    font-weight: 400;
+}
+
+.job-firm {
+    font-size: 23px;
+}
+
+.job-description h3{
+    font: 300 24px 'Open Sans', sans-serif;
+    letter-spacing: 1px;
+    margin: 16px 0;
+    line-height: 1.4;
+}
+
+.apply-btn {
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+    background: linear-gradient(
+            to right, #b9382f, #b9382f, #922A21
+    );
+    border: none;
+    color: #fff;
+    font-weight: 900;
+    transition: background 1s ease;
+}
+
+.apply-btn:focus{
+    outline: none;
+}
+
+.apply-btn:link, .apply-btn:visited {
+    text-decoration: none;
+    color: white;
+}
+
+.apply-btn:hover{
+    cursor: pointer;
+    background: linear-gradient(
+            to left, #b9382f, #b9382f, #922A21
+    );
+}
+
+@media screen and (max-width: 768px) {
+    .job-home {
+        padding: 0
+    }
+
+    .job-container {
+        padding: 8% 10%;
+    }
+}

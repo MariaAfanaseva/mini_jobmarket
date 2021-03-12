@@ -51,6 +51,7 @@
         text-align: center;
         border: 1px solid #c2cdd1;
         border-right: none;
+        background-color: white;
     }
 
     .pagination-number:hover {

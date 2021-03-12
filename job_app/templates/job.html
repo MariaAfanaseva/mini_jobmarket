@@ -1,13 +1,18 @@
 {% extends "base.html" %}
 {% block title %}{{ job.title|safe }}{% endblock %}
 {% block content %}
-    {% autoescape false %}
-        <div>
-            <h1>{{ job.title }}</h1>
-            {{ job.from_date }}
-            {{ job.firm }}
-            {{ job.description }}
+        <div class="job-home">
+            <div class="job-container">
+                {% autoescape false %}
+                    <div class="job-title-container">
+                        <h1 class="job-title">{{ job.title }}</h1>
+                        <p class="job-firm">{{ job.firm }}</p>
+                    </div>
+                    <div class="job-description">
+                        {{ job.description }}
+                    </div>
+                {% endautoescape %}
+                <a class="apply-btn" href="{{ job.job_link }}">JETZT BEWERBEN</a>
+            </div>
         </div>
-    {% endautoescape %}
-    <a href="{{ job.job_link }}">JETZT BEWERBEN</a>
 {% endblock %}

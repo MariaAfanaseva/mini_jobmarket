@@ -109,7 +109,7 @@ export default {
 
 <style>
     .search-home {
-        margin: 5% 15%;
+        padding: 5% 15%;
         display: grid;
         grid-gap: 10px;
     }
@@ -167,7 +167,7 @@ export default {
 
     @media screen and (max-width: 767px) {
         .search-home {
-            margin: 5% 8%;
+            padding: 5% 8%;
         }
 
         .search-block input {

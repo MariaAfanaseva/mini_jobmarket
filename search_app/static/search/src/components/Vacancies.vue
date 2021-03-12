@@ -30,6 +30,7 @@ export default {
         padding: 20px 30px;
         border: 1px solid #c2cdd1;
         transition:  box-shadow 0.5s;
+        background-color: white;
     }
 
     .job-box:link, .job-box:visited {
@@ -55,7 +56,7 @@ export default {
         color: #96a2b2;
     }
 
-    @media screen and (max-width: 767px) {
+    @media screen and (max-width: 768px) {
         .jobs-container {
             text-align: center;
         }
