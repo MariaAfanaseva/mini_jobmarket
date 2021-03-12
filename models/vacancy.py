@@ -34,7 +34,6 @@ class Vacancy(db.Model):
             'id': self.id,
             'title': self.title,
             'workplace': self.workplace
-
         }
 
     @classmethod
@@ -42,7 +41,7 @@ class Vacancy(db.Model):
         return cls.query.filter_by(id=vacancy_id).first()
 
     @classmethod
-    def _create_conditions(cls, keywords):
+    def _create_keywords_conditions(cls, keywords):
         conditions = []
         for keyword in keywords:
             conditions.append(cls.title.ilike(f'%{keyword}%'))
@@ -51,13 +50,22 @@ class Vacancy(db.Model):
         return conditions
 
     @classmethod
-    def search_vacancies(cls, page, quantity, keywords):
+    def _create_location_conditions(cls, locations):
+        conditions = []
+        for location in locations:
+            conditions.append(cls.workplace.ilike(f'%{location}%'))
+        return conditions
+
+    @classmethod
+    def search_vacancies(cls, page, quantity, keywords, locations):
+        data = cls.query
+        if locations:
+            locations_conditions = cls._create_location_conditions(locations)
+            data = data.filter(db.and_(*locations_conditions))
         if keywords:
-            conditions = cls._create_conditions(keywords)
-            return cls.query.filter(
-                db.or_(*conditions)
-            ).order_by(cls.from_date.desc()).paginate(page, quantity, False)
-        return cls.query.paginate(page=page, per_page=quantity, error_out=False)
+            keywords_conditions = cls._create_keywords_conditions(keywords)
+            data = data.filter(db.or_(*keywords_conditions))
+        return data.order_by(cls.from_date.desc()).paginate(page, quantity, error_out=False)
 
     def save_to_db(self):
         db.session.add(self)

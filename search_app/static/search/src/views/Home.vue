@@ -1,11 +1,15 @@
 <template>
-  <div class="home">
+  <div class="search-home">
      <div class="search-block">
-         <input class="search-input" placeholder="Jobtitel, Fähigkeiten oder Firma" type="text" v-model="searchLine">
+         <input class="search-line" placeholder="Jobtitel, Fähigkeiten oder Firma" type="text" v-model="searchLine">
+         <input class="search-ort" placeholder="Ort" type="text" v-model="searchLocation">
          <button class="search-btn" type="submit" @click="changePage">Suchen</button>
      </div>
     <Vacancies v-bind:jobs="jobs"></Vacancies>
-    <Pages v-bind:total-pages="totalPages" v-bind:search-line="searchLine"></Pages>
+    <Pages v-bind:total-pages="totalPages"
+           v-bind:search-line="searchLine"
+           v-bind:search-location="searchLocation">
+    </Pages>
     <Message v-bind:is-visible="isVisibleMessage"></Message>
   </div>
 </template>
@@ -27,6 +31,7 @@ export default {
         return{
             jobs: [],
             searchLine: '',
+            searchLocation: '',
             totalPages: [],
             isVisibleMessage: false,
         }
@@ -34,7 +39,7 @@ export default {
 
   computed: {
     page() {
-      return this.$route.query.page
+        return this.$route.query.page
     }
   },
 
@@ -61,17 +66,34 @@ export default {
 
         changePage() {
               this.$router.push({ path: '/search-job',
-                  query: { keywords: this.searchLine, page: 1 } });
+                  query: { keywords: this.searchLine,
+                           where: this.searchLocation,
+                           page: 1
+                         }
+              });
               this.getData(1);
         },
 
-        getData(page=1) {
+        getQueries(searchData) {
+            return searchData.match(/[^ ]+/g);
+        },
+
+        createUrl(page) {
             // Change url
             let url = 'http://192.168.178.44:5000/search?page=' + page;
-            let keywords = this.searchLine.match(/[^ ]+/g);
+            let keywords = this.getQueries(this.searchLine);
             if (keywords) {
                 url += '&keyword=' + keywords.join('&keyword=');
             }
+            let location = this.getQueries(this.searchLocation);
+            if (location) {
+                url += '&where=' + location.join('&where=');
+            }
+            return url
+        },
+
+        getData(page=1) {
+            const url = this.createUrl(page);
             console.log(url);
             fetch(url)
                 .then(res => res.json())
@@ -80,14 +102,13 @@ export default {
                     this.totalPages = result.totalPages;
                     this.scrollToTop();
                 });
-
         }
     }
 }
 </script>
 
 <style>
-    .home {
+    .search-home {
         margin: 5% 15%;
         display: grid;
         grid-gap: 10px;
@@ -100,20 +121,27 @@ export default {
         margin: 30px 0 20px 0;
     }
 
-    .search-input {
+    .search-block input {
         border-radius: 5px;
         height: 50px;
         padding-left: 30px;
         border: 1px solid #c2cdd1;
-        grid-column-start: 1;
-        grid-column-end: 4;
         font-weight: bolder;
     }
 
-    .search-input:focus {
+    .search-block input:focus {
         outline: none;
         border: 1px solid #c2cdd1;
         border-radius: 5px;
+    }
+
+    .search-line {
+        grid-column-start: 1;
+        grid-column-end: 3;
+    }
+    .search-ort {
+        grid-column-start: 3;
+        grid-column-end: 4;
     }
 
     .search-btn {
@@ -138,13 +166,21 @@ export default {
     }
 
     @media screen and (max-width: 767px) {
-        .home {
+        .search-home {
             margin: 5% 8%;
         }
 
-        .search-input {
+        .search-block input {
             height: 40px;
             padding-left: 20px;
+        }
+
+        .search-line {
+            grid-column-start: 1;
+            grid-column-end: 5;
+        }
+
+        .search-ort{
             grid-column-start: 1;
             grid-column-end: 5;
         }

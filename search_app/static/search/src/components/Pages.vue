@@ -19,20 +19,23 @@
     export default {
       name: 'Pages',
       props: {
-        totalPages: Array,
-        searchLine: String,
+          totalPages: Array,
+          searchLine: String,
+          searchLocation: String,
       },
 
       methods: {
           changePage(page) {
               this.$router.push({ path: '/search-job',
-                  query: { keywords: this.searchLine, page: page } });
+                  query: { keywords: this.searchLine,
+                           where: this.searchLocation,
+                           page: page } });
           }
       }
     }
 </script>
 
-<style>
+<style scoped>
     .pagination-container {
         display: flex;
         justify-content: center;
@@ -66,7 +69,7 @@
         border-right: 1px solid #c2cdd1;
     }
 
-    @media screen and (max-width: 767px) {
+    @media screen and (max-width: 768px) {
         .pagination-number {
             width: 20px;
             padding: 5px;
