@@ -8,20 +8,20 @@ class Vacancy(db.Model):
     title = db.Column(db.String(255), nullable=False)
     firm = db.Column(db.String(128), nullable=False)
     description = db.Column(db.Text(), nullable=False)
-    workplace_postcode = db.Column(db.Integer())
-    workplace = db.Column(db.String(128))
+    location_postcode = db.Column(db.Integer())
+    location = db.Column(db.String(128))
     from_date = db.Column(db.Date())
     job_link = db.Column(db.String(128))
     job_type = db.Column(db.String(80))
 
     def __init__(self, title, firm, description,
-                 workplace_postcode, workplace,
+                 location_postcode, location,
                  from_date, job_link, job_type):
         self.title = title
         self.firm = firm
         self.description = description
-        self.workplace_postcode = workplace_postcode
-        self.workplace = workplace
+        self.location_postcode = location_postcode
+        self.location = location
         self.from_date = from_date
         self.job_link = job_link
         self.job_type = job_type
@@ -33,7 +33,7 @@ class Vacancy(db.Model):
         return {
             'id': self.id,
             'title': self.title,
-            'workplace': self.workplace
+            'location': self.location
         }
 
     @classmethod
@@ -53,7 +53,7 @@ class Vacancy(db.Model):
     def _create_location_conditions(cls, locations):
         conditions = []
         for location in locations:
-            conditions.append(cls.workplace.ilike(f'%{location}%'))
+            conditions.append(cls.location.ilike(f'%{location}%'))
         return conditions
 
     @classmethod

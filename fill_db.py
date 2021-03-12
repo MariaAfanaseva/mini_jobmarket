@@ -41,7 +41,7 @@ class UpdateDb:
             firm = record.getElementsByTagName('firma')[0].firstChild.data
             text = record.getElementsByTagName('volltext')[0].firstChild.data
             postcode = record.getElementsByTagName('plz_arbeitsort')[0].firstChild.data
-            workplace = record.getElementsByTagName('arbeitsort')[0].firstChild.data
+            location = record.getElementsByTagName('arbeitsort')[0].firstChild.data
             from_date = record.getElementsByTagName('vondatum')[0].firstChild.data
             job_link = record.getElementsByTagName('stellenlink')[0].firstChild.data
             job_type = record.getElementsByTagName('jobtype')[0].firstChild.data
@@ -50,7 +50,7 @@ class UpdateDb:
             day, month, year = from_date.split('-')
             from_date = datetime.date(int(year), int(month), int(day))
             vacancy = Vacancy(title=title, firm=firm, description=text,
-                              workplace_postcode=postcode, workplace=workplace,
+                              location_postcode=postcode, location=location,
                               from_date=from_date, job_link=job_link, job_type=job_type)
             vacancy.save_to_db()
             for name in category_names.split(', '):

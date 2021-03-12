@@ -4,7 +4,7 @@
           <div class="job-title" v-html="job.title"></div>
           <div class="location-container">
             <font-awesome-icon icon="map-marker-alt" class="location-logo" />
-            <div class="job-location" v-html="job.workplace"></div>
+            <div class="job-location" v-html="job.location"></div>
           </div>
       </a>
   </div>
