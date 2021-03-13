@@ -30,6 +30,9 @@ class Category(db.Model):
     def find_by_name(cls, name):
         return cls.query.filter_by(name=name).first()
 
+    def get_vacancies(self, quantity):
+        return self.vacancies.limit(quantity).all()
+
     def save_to_db(self):
         db.session.add(self)
         db.session.commit()
